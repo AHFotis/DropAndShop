@@ -1,29 +1,41 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { Ingredient } from '../shared/ingredient.model';
+import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Recipe } from './recipes.model'
 
-@Injectable({
-  providedIn: 'root'
-})
+
+@Injectable()
+
 export class RecipeService {
 
   recipeSelected = new EventEmitter<Recipe>();
 
   private recipes: Recipe[] = [
     new Recipe(
-      "A Test Recipe", 
-      "This is a test.", 
-      "https://www.simplyrecipes.com/thmb/OCi18J2V8OeKDFV3FxoeKvgq74E=/1423x1067/smart/filters:no_upscale()/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2012__07__grilled-sweet-potatoes-horiz-a-1600-7c8292daa98e4020b447f0dc97a45cb7.jpg",
-      []),
+      "Apple Pie", 
+      "Classic apple pie like mama used to make.", 
+      "https://natashaskitchen.com/wp-content/uploads/2019/10/Apple-Pie-2.jpg",
+      [
+        new Ingredient('Green Apples', 3),
+        new Ingredient('Pastry', 1),
+      ]),
     new Recipe(
-      "Another Test Recipe", 
-      "This is a test.", 
-      "https://www.simplyrecipes.com/thmb/OCi18J2V8OeKDFV3FxoeKvgq74E=/1423x1067/smart/filters:no_upscale()/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2012__07__grilled-sweet-potatoes-horiz-a-1600-7c8292daa98e4020b447f0dc97a45cb7.jpg",
-    [])
+      "Spaghetti and Meatballs", 
+      "Only in Italy can you find deliciousness such as this.", 
+      "https://i1.wp.com/smittenkitchen.com/wp-content/uploads//2019/03/perfect-spaghetti-and-meatballs.jpg?fit=1200%2C800&ssl=1",
+      [
+        new Ingredient('Noodles', 1),
+        new Ingredient('Meatballs', 12),
+      ])
   ];
 
-  constructor() { }
+  constructor(private slService: ShoppingListService) { }
 
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    this.slService.addIngredients(ingredients);
   }
 }

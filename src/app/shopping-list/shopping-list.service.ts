@@ -1,16 +1,14 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter} from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+
 export class ShoppingListService {
 
   ingredientsChanged = new EventEmitter<Ingredient[]>();
 
   private ingredients: Ingredient[] = [
-    new Ingredient('Apples', 5),
-    new Ingredient('Tomatoes', 10)
+    new Ingredient('Bananas', 5),
+    new Ingredient('Cucumbers', 10)
   ];
 
   constructor() { }
@@ -25,4 +23,9 @@ export class ShoppingListService {
     this.ingredientsChanged.emit(this.ingredients.slice());
   }
   
+  addIngredients(ingredients: Ingredient[]) {
+    //use spread operator to make ingredients singular
+    this.ingredients.push(...ingredients);
+    this.ingredientsChanged.emit(this.ingredients.slice());
+  }
 }
